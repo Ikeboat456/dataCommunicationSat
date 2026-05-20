@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Communication — Study Summary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --surface-2: #f7f8fb;
+      --border: #e6e9ee;
+      --accent: #0b6cf6;
+      --accent-2: #06b6d4;
+      --accent-3: #f59e0b;
+      --text: #0f1724;
+      --text-muted: #6b7280;
+      --heading: #07132a;
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+    nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:calc(100% - 48px);max-width:1100px;background:rgba(255,255,255,0.8);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:12px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:60;box-shadow:0 6px 18px rgba(15,23,36,0.06)}
+    .brand{font-family:var(--font-mono);color:var(--accent);letter-spacing:.18em;font-weight:600;text-decoration:none}
+    nav ul{display:flex;gap:8px;list-style:none}
+    nav a{font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);text-decoration:none;padding:8px 10px;border-radius:8px}
+    nav a:hover{background:var(--surface-2);color:var(--heading)}
+
+    header{padding:120px 20px 60px}
+    .hero{max-width:1000px;margin:0 auto;text-align:center}
+    .chip{display:inline-block;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;color:var(--accent);background:rgba(11,108,246,0.06);padding:.4rem .9rem;border-radius:999px;margin-bottom:1rem}
+    h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.6rem);color:var(--heading);line-height:1.02;margin:.4rem 0}
+    h1 span{color:var(--accent)}
+    .hero-sub{color:var(--text-muted);max-width:720px;margin:0 auto 1.5rem}
+    .cta{margin-top:1rem}
+    .btn{display:inline-block;padding:.6rem 1.1rem;border-radius:10px;font-family:var(--font-mono);font-size:.85rem;text-decoration:none}
+    .btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(11,108,246,0.12)}
+    .btn-outline{border:1px solid var(--border);color:var(--text-muted);background:none}
+
+    main{max-width:1100px;margin:0 auto;padding:2.2rem 20px}
+    .section{padding:3rem 0}
+    .section-label{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.18em;color:var(--accent);margin-bottom:.6rem}
+    h2{font-family:var(--font-display);font-size:1.6rem;color:var(--heading);margin-bottom:.6rem}
+    .divider{width:56px;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:8px;margin-bottom:1.25rem}
+
+    .about-grid{display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
+    .avatar-fallback{width:220px;height:280px;border-radius:20px;background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--text-muted);padding:1.2rem}
+    .avatar-photo{
+      width:180px;height:180px;border-radius:24px;border:2px dashed var(--border);
+      object-fit: cover; /* Ensures the image covers the area, cropping if necessary */
+      display: block; /* Removes extra space below the image */
+    }
+    .id-tag{margin-top:.75rem;font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);background:transparent;border-radius:8px;padding:.25rem .6rem}
+    .about-text p{color:var(--text);margin-bottom:.8rem}
+    .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+    .tag{background:var(--surface-2);padding:.35rem .6rem;border-radius:8px;font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted)}
+
+    .topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+    .topic-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;box-shadow:0 8px 20px rgba(15,23,36,0.04)}
+    .topic-icon{font-size:1.4rem;margin-bottom:.6rem}
+    .topic-card h3{font-family:var(--font-display);font-size:1.05rem;color:var(--heading);margin-bottom:.4rem}
+    .topic-card p{color:var(--text-muted);font-size:.95rem;line-height:1.5}
+
+    .telegraph-container{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;overflow:auto}
+    .video-wrap{margin-top:1rem;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(15,23,36,0.06);background:var(--surface-2);width:100%;max-width:700px}
+    .video-wrap iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+
+    .resource-list{display:flex;flex-direction:column;gap:.75rem}
+    .resource-item{display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--border);padding:1rem;border-radius:12px;text-decoration:none;color:var(--text)}
+    .resource-item:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(15,23,36,0.06)}
+
+    .inspire-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .inspire-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem}
+
+    footer{max-width:1100px;margin:2.5rem auto;padding:1.5rem 20px;color:var(--text-muted);font-family:var(--font-mono);font-size:.85rem}
+
+    @media(max-width:820px){.about-grid{grid-template-columns:1fr}.inspire-grid{grid-template-columns:1fr}.hero{padding:0 12px}nav{left:12px;transform:none;width:calc(100% - 24px)}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="brand" href="#about">DataComms</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#topics">Topics</a></li>
+      <li><a href="#telegraph">Telegraph</a></li>
+      <li><a href="#media">Video</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#inspiration">Inspiration</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="home" class="section">
+      <div class="hero">
+        <div class="chip">Data Communication — Course Summary</div>
+        <h1>Signals, Systems<br>&amp; <span>Networks</span></h1>
+        <p class="hero-sub">A concise study journal covering how data moves — from copper and fibre to protocols and encoding.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#topics">Explore Topics</a>
+          <a class="btn btn-outline" href="#resources">Resources</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-label">01 — About</div>
+      <h2>The Student</h2>
+      <div class="divider"></div>
+      <div class="about-grid">
+        <div>
+          <div class="avatar-fallback">
+            <img src="/me.jpg" alt="Student Profile Photo" class="avatar-photo">
+            <div style="font-size:.9rem;color:var(--text-muted);margin-top:.5rem">ME</div>
+          </div>
+          <div class="id-tag">ID: <strong>PUIS - 24210008</strong></div>
+        </div>
+        <div class="about-text">
+          <p><strong style="color:var(--heading)">Boateng Isaac Asare </strong> — An Industrial Software engineering student exploring how information flows across physical and virtual networks.</p>
+          <p>This page is a personal knowledge base summarising lectures, labs and practical notes on data communications.</p>
+          <div class="tags">
+            <span class="tag">Data Comm.</span>
+            <span class="tag">Networking</span>
+            <span class="tag">Satellite communication</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section id="topics" class="section">
+      <div class="section-label">02 — Core Topics</div>
+      <h2>What I Studied</h2>
+      <div class="divider"></div>
+      <div class="topics-grid">
+        <div class="topic-card"><div class="topic-icon">📡</div><h3>Data vs. Signal</h3><p>Understanding analog vs. digital signals, bandwidth and information theory basics.</p></div>
+        <div class="topic-card"><div class="topic-icon">🔗</div><h3>Transmission Media</h3><p>Twisted pair, coax, fibre and wireless — characteristics and trade-offs.</p></div>
+        <div class="topic-card"><div class="topic-icon">🏗️</div><h3>OSI &amp; TCP/IP</h3><p>Layered models, encapsulation and common protocols.</p></div>
+        <div class="topic-card"><div class="topic-icon">⚡</div><h3>Encoding &amp; Modulation</h3><p>Line coding, modulation schemes and bandwidth-efficiency trade-offs.</p></div>
+        <div class="topic-card"><div class="topic-icon">🔍</div><h3>Error Detection</h3><p>Parity, CRC, checksums and basic FEC/ARQ approaches.</p></div>
+        <div class="topic-card"><div class="topic-icon">🔀</div><h3>Multiplexing</h3><p>FDM, TDM, WDM, CDMA and OFDM concepts.</p></div>
+      </div>
+    </section>
+
+    <section id="telegraph" class="section">
+      <div class="section-label">03 — Historical Context</div>
+      <h2>The Electric Telegraph</h2>
+      <div class="divider"></div>
+      <p style="color:var(--text-muted);max-width:680px;margin-bottom:1rem">The telegraph introduced discrete electrical pulses for long-distance text — an important milestone toward modern digital communication.</p>
+      <div class="telegraph-container">
+        <img src="/Morses-Telegraph-Diagram.jpg" alt="Morse's Telegraph Diagram" style="width:100%; height:auto; border-radius:8px; display:block;">
+      </div>
+    </section>
+
+    <section id="media" class="section">
+      <div class="section-label">04 — Learning Media</div>
+      <h2>Video Resource</h2>
+      <div class="divider"></div>
+      <p style="color:var(--text-muted)">A short visual overview of core concepts.</p>
+      <div class="video-wrap">
+<iframe
+        src="https://www.youtube.com/embed/tzP7QOOAt4I"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <section id="resources" class="section">
+      <div class="section-label">05 — Links &amp; Downloads</div>
+      <h2>Resources</h2>
+      <div class="divider"></div>
+      <div class="resource-list">
+        <a class="resource-item" href="https://docs.google.com/document/d/1a1Mldd29Yg7VJEhxOzNFZnPnyrvmELZt29xTOWf4i_M/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="res-icon">📄</span><span class="res-label"><strong>Assignment</strong><span style="display:block;font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted)">assignment.pdf</span></span><span style="color:var(--text-muted)">↗</span></a>
+        <a class="resource-item" href="https://github.com/Ikeboat456/dataCommunicationSat.git" target="_blank" rel="noopener noreferrer"><span class="res-icon">🐙</span><span class="res-label"><strong>GitHub</strong><span style="display:block;font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted)">Repository</span></span><span style="color:var(--text-muted)">↗</span></a>
+      </div>
+    </section>
+
+    <section id="inspiration" class="section">
+      <div class="section-label">06 — What Drives Me</div>
+      <h2>What Inspires Me</h2>
+      <div class="divider"></div>
+      <div class="inspire-grid">
+        <div class="inspire-card"><h3>🌍 Connecting the Unconnected</h3><p style="color:var(--text-muted)">Building networks for global access.</p></div>
+        <div class="inspire-card"><h3>⚡ Protocol Elegance</h3><p style="color:var(--text-muted)">Architecture that scales and endures.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Crafted with curiosity by <strong style="color:var(--heading)">Boateng Isaac Asare</strong> · Student ID: PUIS/24210008 · <a href="https://github.com/Ikeboat456/dataCommunicationSat.git" target="_blank" rel="noopener">GitHub ↗</a></p>
+  </footer>
+
+</body>
+</html>
